@@ -1,0 +1,98 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 12 mai 2022, 15:37:26
+    Author     : ysabatierm
+*/
+#conteneur{
+    margin-left: auto;
+    margin-right: auto;
+    width:600px;
+    height:490px;
+    border:2px solid #282626; 
+    
+    
+}
+.piedPage{
+    position:relative;
+    height: 100px;
+    width: 600px;
+    background-color: #34495E;
+}
+#espace-emp{
+    position: absolute;
+    top: 30px;
+    left: 100px
+}
+.background{
+    background-color: rgb(238, 232, 225);
+}
+
+.carre{
+    box-shadow: 0px 7px 8px 2px rgba(0, 0, 0, 0.2);
+    margin-left: auto;
+    margin-right: auto;
+    width:400px;
+    height:100px;
+    background-color: rgb(255, 255, 255); 
+}
+.titre{
+    font-size: 40px;
+    color: rgb(255, 255, 255);
+    text-align: center;
+}
+#preface{
+    margin-left: auto;
+    margin-right: auto;
+    width:600px;
+    height: 100px;
+    border: 1px solid #000; 
+    display: block;
+    position: relative;
+    background-color: #34495E;
+    
+}
+
+.connexion{
+    position: absolute;
+    bottom: 10px;
+    right:10px
+    
+}
+.bouton{
+    cursor: pointer;
+    margin-left: auto;
+    margin-right: auto;
+    width: 150px;
+    height: 25px;
+    color:white;
+    background-color: #34495E;
+    
+}
+a{
+    cursor: pointer;
+}
+ /* unvisited link */
+ a:link {
+    color: rgb(255, 255, 255);
+  }
+  
+  /* visited link */
+  a:visited {
+    color: rgb(255, 255, 255);
+  }
+  
+  /* mouse over link */
+  a:hover {
+    cursor: pointer; 
+    color: hotpink;
+  }
+  
+  /* selected link */
+  a:active {
+    color: blue;
+  } 
+

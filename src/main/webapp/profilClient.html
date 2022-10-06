@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Profil client</title>
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="stylesheetAccueil.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+
+        <div id="conteneur" style="height: 552px">
+            <div id="preface" >
+                <h1 class="titre"><span>REACT'</span><span style="color: #d85531 ;">IF</span></h1>
+                <div class="divPrenom">Bonjour, <a id='prenom'></a></div>
+                <div class="lienHaut">
+                    <a href='profilClient.html'>Profil</a> | 
+                    <a href='accueilConnecte.html'>Accueil</a> | 
+                    <a href='historiqueClient.html'>Historique</a> | 
+                    <a style="text-decoration: underline;" id="deconnexion" >Déconnexion</a>
+                </div>
+            </div>
+
+            <div class="background" style="height: 450px">
+                <br/>
+                <div class="carre" style="text-align:center; width: 500px;height: 400px;">
+                    <br/>
+                    
+                    <div style="font-size: 30px;">Profil </div>
+                    <br/>
+                    <div id="profil">
+                        <table class='rwd-table' style='margin-right: auto; margin-left: auto; font-size: 14px'>
+                                <tbody id="profilTab1" >
+                                    <tr>
+                                        <th>Genre</th>
+                                        <th>Prénom</th>
+                                        <th>Nom</th>
+                                        <th>Type</th>                        
+                                    </tr>
+                                </tbody>
+                            </table>
+                        <br/>
+                        <table class='rwd-table' style='margin-right: auto; margin-left: auto; font-size: 14px'>
+                                <tbody id="profilTab2" >
+                                    <tr>
+                                      
+                                        <th>E-mail</th>
+                                        <th>Telephone</th>
+                                        <th>Membre depuis</th>
+                          
+                                    </tr>
+                                </tbody>
+                            </table>
+                    </div>
+                    <br/>
+                    <div class="bouton">
+                        <a href="historiqueClient.html">Voir mon historique></a>
+                    </div>
+                    <br/>
+                </div>  
+            </div>
+            <script>
+                $(document).ready(function () {
+                    // Appel AJAX
+                    $.ajax({
+                        url: './ActionServlet',
+                        method: 'POST',
+                        data: {
+                            todo: 'consulterClient',
+                        },
+                        dataType: 'json'
+                    })
+                            .done(function (response) { // Fonction appelée en cas d'appel AJAX réussi
+                                console.log('Response', response); // LOG dans Console Javascript
+
+                                $('#profilTab1').append("<tr><td>"+response.client.genre+"</td><td>"+response.client.prenom +"</td><td> " + response.client.nom + "</td><td>Utilisateur</td></tr>");  // Message pour le paragraphe de notification
+                                $('#profilTab2').append("<tr><td>" + response.client.mail + "</td><td>"+response.client.telephone+"</td><td>2022</td>")
+                                $('#prenom').html(response.client.prenom);
+
+                            })
+                            .fail(function (error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
+                                console.log('Error', error); // LOG dans Console Javascript
+                                alert("Erreur lors de l'appel AJAX");
+                            })
+                            .always(function () { // Fonction toujours appelée
+
+                            });
+                    $('#deconnexion').on('click', function () { // Fonction appelée lors du clic sur le bouton
+
+                        console.log("clic sur le bouton de deconnexion"); // LOG dans Console Javascript
+                        $.ajax({
+                            url: './ActionServlet',
+                            method: 'POST',
+                            data: {
+                                todo: 'deconnexion'
+                            },
+                            dataType: 'json'
+                        })
+                                .done(function (response) { // Fonction appelée en cas d'appel AJAX réussi
+                                    console.log('Response', response); // LOG dans Console Javascript
+                                    window.location = "./index.html";
+                                })
+                                .fail(function (error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
+                                    console.log('Error', error); // LOG dans Console Javascript
+                                    alert("Erreur lors de l'appel AJAX");
+                                })
+                                .always(function () { // Fonction toujours appelée
+
+                                });
+                    });
+                });
+            </script>
+        </div>
+    </body>
+</html>

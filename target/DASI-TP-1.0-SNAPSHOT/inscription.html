@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Inscription</title>
+        <!--Librairie JQUERY-->
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <link rel="stylesheet" href="stylesheetInscription.css">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="fonts/icomoon/style.css">
+
+        <link rel="stylesheet" href="css/owl.carousel.min.css">
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+
+        <!-- Style -->
+        <link rel="stylesheet" href="css/style.css">
+    </head>
+    <body>
+        <br/>
+        <br/>
+        <br/>
+        <div id="conteneur">
+            <div id="preface" >
+                <br/>
+                <h1 class="titre"><span>REACT'</span><span style="color: #d85531 ;">IF</span></h1>
+            </div>
+            <div class="background">
+                <br/>
+                <br/>
+                <div class="carre" style="text-align:left;">
+                    <h1 style="text-align: center;">S'inscrire</h1>
+                    <br/>
+                    <div class="form">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group first">
+                                    <label for='selection-sexe'>Genre</label>
+                                    <br/>
+                                    <select id='selection-sexe' style="width: 200px;">
+                                        <option value="M.">M.</option>
+                                        <option value="Mme.">Mme.</option>
+                                        <option value="Mlle.">Mlle.</option>
+                                        <option value="Doc.">Doc.</option>
+                                        <option value="M.Mme.Mlle.">M.Mme.Mlle (un peu de tout)</option>
+                                        <option value="animal">Je me considère poisson rouge</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group first">
+                                    <label for="champ-ddn">Date de naissance *</label>
+                                    <input type="date" class="form-control" id="champ-ddn">
+                                </div>  
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group first">
+                                    <label for="champ-prenom">Prénom *</label>
+                                    <input type="text" class="form-control" placeholder="Yoann" id="champ-prenom">
+                                </div>    
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group first">
+                                    <label for="champ-nom-de-famille">Nom de famille *</label>
+                                    <input type="text" class="form-control" placeholder="Sabatier" id="champ-nom-de-famille">
+                                </div>    
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group first">
+                                    <label for="champ-email">Adresse e-mail *</label>
+                                    <input type="email" class="form-control" placeholder="yoann.sabatier@gmail.com" id="champ-email">
+                                </div>    
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group first">
+                                    <label for="champ-adresse">Adresse *</label>
+                                    <input type="text" class="form-control" placeholder="6 rue de Châteaudun 92250" id="champ-adresse">
+                                </div>    
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group first">
+                                    <label for="champ-telephone">N° de téléphone</label>
+                                    <input type="text" class="form-control" placeholder="06 99 07 00 00 (n'embêtez pas ce num svp)" id="champ-telephone">
+                                </div>    
+                            </div>
+                            <div class="col-md-6">
+
+                                <div class="form-group last mb-3">
+                                    <label for="champ-mdp">Mot de passe *</label>
+                                    <input type="password" class="form-control" placeholder="MDP123" id="champ-mdp">
+                                </div>
+
+                            </div>              
+
+                        </div>
+
+                        <div class="bouton" style="text-align: center">
+                            <a id="bouton-inscription"> Inscription</a>
+
+                        </div>
+
+                        <br/>
+                        <p id="notif-inscription" style="color: black; text-align: center;">Tous les champs marqués d'un '*' sont obligatoires</p>
+
+                    </div>   
+                    <br/>
+                    <br/>
+                </div>
+            </div>
+        </div>   
+
+        <script src="js/jquery-3.3.1.min.js"></script>
+        <script src="js/popper.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/main.js"></script>
+
+
+        <script>
+            $(document).ready(function () {
+                $('#bouton-inscription').on('click', function () { // Fonction appelée lors du clic sur le bouton
+
+                    console.log("clic sur le bouton d'inscription"); // LOG dans Console Javascript
+                    // Récupération de la valeur des champs du formulaire
+                    var champSexe = $('#selection-sexe').val();
+                    var champPrenom = $('#champ-prenom').val();
+                    var champNomFamille = $('#champ-nom-de-famille').val();
+                    var champMail = $('#champ-email').val();
+                    var champAdresse = $('#champ-adresse').val();
+                    var champDateNaissance = $('#champ-ddn').val();
+                    var champMdp = $('#champ-mdp').val();
+                    var champTelephone = $('#champ-telephone').val();
+                    if (champPrenom === "" || champNomFamille === "" || champMail === "" || champMdp === "" || champDateNaissance === "" || champAdresse === "") {
+                        $('#notif-inscription').html("Veuillez renseigner tous les champs obligatoires"); // Message pour le paragraphe de notification
+                    } else if(champTelephone.length!==0 && champTelephone.length!==14 && champTelephone.length!==10){
+               
+                        $('#notif-inscription').html("Veuillez renseigner un numéro de téléphone valide"); // Message pour le paragraphe de notification
+                    } 
+                    else  {
+                        $('#notif-inscription').html("Inscription en cours..."); // Message pour le paragraphe de notification                    
+
+                        // Appel AJAX
+                        $.ajax({
+                            url: './ActionServlet',
+                            method: 'POST',
+                            data: {
+                                todo: 'inscription',
+                                sexe: champSexe,
+                                prenom: champPrenom,
+                                nomDeFamille: champNomFamille,
+                                email: champMail,
+                                adresse: champAdresse,
+                                dateDeNaissance: champDateNaissance,
+                                motDePasse: champMdp,
+                                telephone: champTelephone
+                            },
+                            dataType: 'json'
+                        })
+                                .done(function (response) { // Fonction appelée en cas d'appel AJAX réussi
+                                    console.log('Response', response); // LOG dans Console Javascript
+                                    if (response.inscrit) {
+                                        $('#notif-inscription').html("Inscription Réussie : vous allez recevoir un mail");  // Message pour le paragraphe de notification
+                                        window.location = "./accueilConnecte.html";
+                                    } else {
+                                        $('#notif-inscription').html("Erreur lors de l'inscription : vous allez recevoir un mail"); // Message pour le paragraphe de notification
+
+                                    }
+                                })
+                                .fail(function (error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
+                                    console.log('Error', error); // LOG dans Console Javascript
+                                    alert("Erreur lors de l'appel AJAX");
+                                })
+                                .always(function () { // Fonction toujours appelée
+
+                                });
+                    }
+
+                });
+            });
+        </script>
+    </body>
+</html>

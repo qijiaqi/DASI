@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Profil Employe</title>
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="stylesheetAccueil.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style type="text/css">
+            html, body { height: 100%; margin: 0; padding: 0; }
+            h1 { text-align: center; }
+            #map { height: 30%; margin-left: 20px; margin-right: 20px }
+
+            .scroller {
+                width: 550px;
+                height: 200px;
+                overflow-y: scroll;
+
+            }
+
+        </style>
+    </head>
+    <body>
+
+        <div id="conteneur" style="height: 1102px; width: 600px;">
+            <div id="preface" >
+                <h1 class="titre"><span>REACT'</span><span style="color: #d85531 ;">IF</span></h1>
+                <div class="divPrenom">Bonjour, <a id='prenom'></a></div>
+                <div class="lienHaut">
+                    <a id="lien-interv" style="text-decoration: underline;">Intervention en cours</a> |
+                    <a href='profilEmploye.html'>Profil</a> | 
+                    <a href='historiqueEmploye.html'>Historique</a> | 
+                    <a style="text-decoration: underline;" id="deconnexion" >Déconnexion</a>
+                </div>
+            </div>
+
+            <div class="background" style="height: 1000px; width: 600px;">
+                <br/>
+                <div class="carre" style="text-align:center; height: 970px; width: 550px;">
+                    <br/>
+                    <div style="font-size: 25px;">Profil </div>
+                    <br/>
+                    <div id="profil">
+                        <table class='rwd-table' style='margin-right: auto; margin-left: auto; font-size: 14px'>
+                            <tbody id="profilTab1" >
+                                <tr>
+                                    <th>Genre</th>
+                                    <th>Prénom</th>
+                                    <th>Nom</th>
+                                    <th>Type</th>
+                                    <th>E-mail</th>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br/>
+                        <table class='rwd-table' style='margin-right: auto; margin-left: auto; font-size: 12px'>
+                            <tbody id="profilTab2" >
+                                <tr>
+                                    <th>Téléphone</th>
+                                    <th>Membre depuis</th>
+                                    <th>Agence associée</th>
+                                    <th>Km cumulés en vélo</th>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <br/>
+
+                    <div class="bouton">
+                        <a href="historiqueEmploye.html">Voir mon historique</a>
+                    </div>
+                    <br/>
+                    <div style="font-size: 20px; font-weight: bold">
+                        Tes interventions du jours
+                    </div>
+                    <br/>
+                    <div>
+                        <strong>Clients vus aujourd'hui : </strong>
+                        <select id="clientInterv" onchange="initMap();">
+                          
+                        </select>
+                    </div>
+                    <br/>
+                    <div id="map">
+                    </div>
+                    <br/>
+                    <div>
+                        Aujourd'hui, tu as parcouru <span id="nbKm"></span> sur <span id="nbIntervention"></span> intervention(s) :<br/><br/>
+                        <div id="interventions" class="scroller">
+                        
+
+                        </div>
+                    </div>
+                </div>   
+            </div>
+        </div>
+
+
+        <script>
+            $(document).ready(function () {
+                // Appel AJAX
+                $.ajax({
+                    url: './ActionServlet',
+                    method: 'POST',
+                    data: {
+                        todo: 'consulterEmploye',
+                    },
+                    dataType: 'json'
+                })
+                        .done(function (response) { // Fonction appelée en cas d'appel AJAX réussi
+                            console.log('Response', response); // LOG dans Console Javascript
+
+                            $('#profilTab1').append("<tr><td>" + response.employe.genre + "</td><td>" + response.employe.prenom + "</td><td> " + response.employe.nom + "</td><td>Employé</td><td>" + response.employe.mail + "</td></tr>");  // Message pour le paragraphe de notification
+                            $('#profilTab2').append("<tr><td>" + response.employe.telephone + "</td><td>2022</td><td>" + response.employe.agence + "</td><td>" + response.employe.kmCumule + "</td></tr>");  // Message pour le paragraphe de notification
+
+                            $('#prenom').html(response.employe.prenom);
+
+                        })
+                        .fail(function (error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
+                            console.log('Error', error); // LOG dans Console Javascript
+                            alert("Erreur lors de l'appel AJAX");
+                        })
+                        .always(function () { // Fonction toujours appelée
+
+                        });
+                $('#lien-interv').on('click', function () { // Fonction appelée lors du clic sur le bouton
+
+                    $.ajax({
+                        url: './ActionServlet',
+                        method: 'POST',
+                        data: {
+                            todo: 'consulterEmploye'
+                        },
+                        dataType: 'json'
+                    })
+                            .done(function (response) { // Fonction appelée en cas d'appel AJAX réussi
+                                console.log('Response', response); // LOG dans Console Javascript
+                                if (response.employe.dispo == true) {
+                                    alert("Aucun intervention en cours");
+                                } else {
+                                    window.location = "./interventionEnCours.html";
+                                }
+                            })
+                            .fail(function (error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
+                                console.log('Error', error); // LOG dans Console Javascript
+                                alert("Erreur lors de l'appel AJAX");
+                            })
+                            .always(function () { // Fonction toujours appelée
+
+                            });
+                });
+                $.ajax({
+                    url: './ActionServlet',
+                    method: 'POST',
+                    data: {
+                        todo: 'recupererInterventionsDuJour'
+                    },
+                    dataType: 'json'
+                })
+                        .done(function (response) { // Fonction appelée en cas d'appel AJAX réussi
+                            //console.log('Response', response); // LOG dans Console Javascript
+                            $('#nbKm').html(response.kmCumul.nbKmCumul + "  km");
+                            $('#nbIntervention').html(" " + response.nbIntervention.nbIntervention);
+                            var interventions = response.interventionsDuJour;
+                            var histoHtml = $('#interventions');
+                            $.each(interventions, function (i, intervention) {
+
+                                histoHtml.append(
+                                        "<div style='margin-right:auto;margin-left:auto; width:500px; background-color:#34495e;overflow: hidden;' ><div style='float: left; text-align:left; color: white; margin-left:15px; margin-top:15px; margin-bottom:15px'><span style='font-weight:bold; color:#ffffcc  '>Type : </span>" + intervention.type + "<br/><span style='font-weight:bold; color: #ffffcc '>Statut : </span>" + intervention.statut + "<br/><span style='font-weight:bold; color: #ffffcc'>Commentaire : </span>" + intervention.commentaire +"</div><div style='float: right; text-align:left; color:white; margin-right:15px; margin-top:15px; margin-bottom:15px '><span style='font-weight:bold; color:   #ffffcc'>" + intervention.heure +"</span></div></div><br/>"
+                                        );
+                            });
+                            histoHtml.append("</tbody>");
+                            $.each(interventions, function (i, intervention) {
+
+                                $('#clientInterv').append(
+                                        "<option value='"+intervention.prenomClient+"'>"+intervention.prenomClient+"</option>"
+                                )
+                            });
+
+                        })
+                        .fail(function (error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
+                            console.log('Error', error); // LOG dans Console Javascript
+                            alert("Erreur lors de l'appel AJAX");
+                        })
+                        .always(function () { // Fonction toujours appelée
+
+                        });
+                $('#deconnexion').on('click', function () { // Fonction appelée lors du clic sur le bouton
+
+                    console.log("clic sur le bouton de deconnexion"); // LOG dans Console Javascript
+                    $.ajax({
+                        url: './ActionServlet',
+                        method: 'POST',
+                        data: {
+                            todo: 'deconnexion'
+                        },
+                        dataType: 'json'
+                    })
+                            .done(function (response) { // Fonction appelée en cas d'appel AJAX réussi
+                                console.log('Response', response); // LOG dans Console Javascript
+                                window.location = "./index.html";
+                            })
+                            .fail(function (error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
+                                console.log('Error', error); // LOG dans Console Javascript
+                                alert("Erreur lors de l'appel AJAX");
+                            })
+                            .always(function () { // Fonction toujours appelée
+
+                            });
+                });
+
+            });
+        </script>
+        <script type="text/javascript">
+
+            var googleMapInstance = null;
+
+            function makeInfoWindow(title) {
+                return new google.maps.InfoWindow({
+                    content: '<div>Information: ' + title + '</div>'
+                });
+            }
+
+            function attachInfoWindow(marker, infowindow, htmlDescription) {
+                marker.addListener('click', function () {
+
+                    infowindow.setContent(htmlDescription);
+                    infowindow.open(googleMapInstance, this);
+                });
+            }
+
+            function initMap() {
+                
+                $(document).ready(function () {
+                    // Appel AJAX
+                    $.ajax({
+                        url: './ActionServlet',
+                        method: 'POST',
+                        data: {
+                            todo: 'recupererInterventionsDuJour',
+                        },
+                        dataType: 'json'
+                    })
+                            .done(function (response) { // Fonction appelée en cas d'appel AJAX réussi
+
+                                googleMapInstance = new google.maps.Map(document.getElementById('map'), {
+                                    center: {lat: response.posAgence.lat, lng: response.posAgence.long},
+                                    zoom: 13
+                                });
+                                var directionsService = new google.maps.DirectionsService();
+                                var directionsRenderer = new google.maps.DirectionsRenderer();
+                                directionsRenderer.setMap(googleMapInstance);
+                                
+                                var infowindow = makeInfoWindow('');
+
+                                var marker = new google.maps.Marker({
+                                    map: googleMapInstance,
+                                    position: {lat: response.posAgence.lat, lng: response.posAgence.long},
+                                    title: "Agence",
+                                    icon: {url: './image/agence.png', scaledSize: new google.maps.Size(32, 32)}
+                                });
+
+                                marker.addListener('click', function () {
+
+                                    infowindow.setContent('<div>Information: ' + marker.title + '</div>');
+                                    infowindow.open(googleMapInstance, marker);
+                                });
+                                // Simuler un appel AJAX (attente 5s)
+                            
+                                setTimeout(
+                                        generateMarkers(response),
+                                        calcRoute(response,directionsService, directionsRenderer),
+                                        5000
+                                        );
+
+                            })
+                            .fail(function (error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
+                                console.log('Error', error); // LOG dans Console Javascript
+                                alert("Erreur lors de l'appel AJAX");
+                            })
+                            .always(function () { // Fonction toujours appelée
+
+                            });
+                });
+
+            }
+
+            function calcRoute(response,directionsService, directionsRenderer) {
+                
+                var client = $('#clientInterv').val();
+                
+                for (var i = 0; i < response.nbIntervention.nbIntervention; i++) {
+                    console.log("interve", response.interventionsDuJour[i]);
+                    if(response.interventionsDuJour[i].prenomClient===client){
+
+                        var depart = new google.maps.LatLng(response.posAgence.lat, response.posAgence.long);
+                        var arrivee = new google.maps.LatLng(response.interventionsDuJour[i].lat, response.interventionsDuJour[i].long);
+                        console.log(depart,"    oui     ",arrivee);
+                        var request = {
+                            origin: depart,
+                            destination: arrivee,
+                            travelMode: 'DRIVING'
+                        };
+                        directionsService.route(request, function (result, status) {
+                            if (status == 'OK') {
+                                directionsRenderer.setDirections(result);
+                            }
+                        });
+                    }
+                }
+          
+                
+            }
+
+            function generateMarkers(response) {
+
+                // Petite popup Google Maps
+                var infowindow = makeInfoWindow('');
+
+
+
+                for (var i = 0; i < response.nbIntervention.nbIntervention; i++) {
+                   // console.log("interve", response.interventionsDuJour[i]);
+                    var iconImage = null; // marker par défaut
+
+                    var marker = new google.maps.Marker({
+                        map: googleMapInstance,
+                        position: {lat: response.interventionsDuJour[i].lat, lng: response.interventionsDuJour[i].long},
+                        title: "Chez " + response.interventionsDuJour[i].prenomClient,
+                        icon: iconImage
+                    });
+
+                    attachInfoWindow(
+                            marker, infowindow,
+                            '<div>' + response.interventionsDuJour[i].adresse + '</div>'
+                            );
+                }
+
+            }
+
+        </script>
+        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDMqXyR2llzWs1F_K147AwbfA89XouummE&callback=initMap">
+        </script>
+    </body>
+</html>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Historique Client</title>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="stylesheetAccueil.css">
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            .scroller {
+            width: 500px;
+            height: 300px;
+            overflow-y: scroll;
+            }         
+        </style>
+    </head>
+    <body>
+        <div id="conteneur">
+            <div id="preface" >
+                <h1 class="titre"><span>REACT'</span><span style="color: #d85531 ;">IF</span></h1>
+                <div class="divPrenom">Bonjour, <a id='prenom'></a></div>
+                <div class="lienHaut">
+                    <a href='profilClient.html'>Profil</a> | 
+                    <a href='accueilConnecte.html'>Accueil</a> | 
+                    <a href='historiqueClient.html'>Historique</a> | 
+                    <a style="text-decoration: underline;" id="deconnexion" >Déconnexion</a>
+                </div>
+            </div>
+
+            <div class="background">
+                <br/>
+                <div class="carre" style="text-align:center; height: 450px; width: 550px">
+                    <br/>
+                    <div style="font-size: 30px;">Historique </div>
+                    <br/>
+
+
+                    <div style="text-align: left; margin-left: 25px">Liste des interventions :</div>
+                    <br/>
+                    <div id="interventions" class="scroller">
+                    </div>
+                </div>   
+
+            </div>
+        </div>
+        <script>
+            $(document).ready(function () {
+                // Appel AJAX
+                $.ajax({
+                    url: './ActionServlet',
+                    method: 'POST',
+                    data: {
+                        todo: 'consulterClient',
+                    },
+                    dataType: 'json'
+                })
+                        .done(function (response) { // Fonction appelée en cas d'appel AJAX réussi
+                            console.log('Response', response); // LOG dans Console Javascript
+                            $('#prenom').html(response.client.prenom);
+                        })
+                        .fail(function (error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
+                            console.log('Error', error); // LOG dans Console Javascript
+                            alert("Erreur lors de l'appel AJAX");
+                        })
+                        .always(function () { // Fonction toujours appelée
+
+                        });
+                $.ajax({
+                    url: './ActionServlet',
+                    method: 'POST',
+                    data: {
+                        todo: 'recupererHistoriqueClient'
+                    },
+                    dataType: 'json'
+                })
+                        .done(function (response) { // Fonction appelée en cas d'appel AJAX réussi
+                            console.log('Response', response); // LOG dans Console Javascript
+                            var interventions = response.historique;
+                            var histoHtml = $('#interventions');
+                            var commentaire;
+                            if(interventions.length!==0){
+                                $.each(interventions, function (i, intervention) {
+                                    commentaire = intervention.commentaire;
+                                    if(commentaire===null) commentaire="-";
+                                    histoHtml.append(
+                                            "<div style='margin-right:auto;margin-left:auto; width:450px; background-color:#34495e;overflow: hidden;' ><div style='float: left; text-align:left; color: white; margin-left:15px; margin-top:15px; margin-bottom:15px'><span style='font-weight:bold; color:#ffffcc  '>Type : </span>" + intervention.type + "<br/><span style='font-weight:bold; color: #ffffcc '>Statut : </span>" + intervention.statut + "<br/><span style='font-weight:bold; color: #ffffcc'>Date : </span>" + intervention.date + "</div><div style='float: right; text-align:left; color:white; margin-right:15px; margin-top:15px; margin-bottom:15px '><span style='font-weight:bold; color:   #ffffcc'> Commentaire : </span>" + commentaire +"<br/><br/><span style='font-weight:bold; color:   #ffffcc'> Employé associé : </span>" + intervention.employe +"</div></div><br/>"
+                                            );
+                                });
+                            }
+                            else{
+                                histoHtml.append("Vous n'avez pas encore fait d'intervention");
+                            }
+                         
+
+                        })
+                        .fail(function (error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
+                            console.log('Error', error); // LOG dans Console Javascript
+                            alert("Erreur lors de l'appel AJAX");
+                        })
+                        .always(function () { // Fonction toujours appelée
+
+                        });
+                $('#deconnexion').on('click', function () { // Fonction appelée lors du clic sur le bouton
+
+                    console.log("clic sur le bouton de deconnexion"); // LOG dans Console Javascript
+                    $.ajax({
+                        url: './ActionServlet',
+                        method: 'POST',
+                        data: {
+                            todo: 'deconnexion'
+                        },
+                        dataType: 'json'
+                    })
+                            .done(function (response) { // Fonction appelée en cas d'appel AJAX réussi
+                                console.log('Response', response); // LOG dans Console Javascript
+                                window.location = "./index.html";
+                            })
+                            .fail(function (error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
+                                console.log('Error', error); // LOG dans Console Javascript
+                                alert("Erreur lors de l'appel AJAX");
+                            })
+                            .always(function () { // Fonction toujours appelée
+
+                            });
+                });
+            });
+
+
+
+        </script>
+
+    </body>
+</html>

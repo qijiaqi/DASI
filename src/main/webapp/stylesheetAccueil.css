@@ -1,0 +1,197 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 12 mai 2022, 15:37:26
+    Author     : ysabatierm
+*/
+#conteneur{
+    margin-left: auto;
+    margin-right: auto;
+    width:600px;
+    height:600px;
+    border:2px solid #282626; 
+    
+    
+}
+.piedPage{
+    position:relative;
+    height: 100px;
+    width: 600px;
+    background-color: #34495E;
+}
+.interv{
+
+    background-color:  #73d5e9 ;
+    overflow: hidden; 
+}
+#espace-emp{
+    position: absolute;
+    top: 30px;
+    left: 100px
+}
+.background{
+    background-color: rgb(238, 232, 225);
+    height: 496px
+}
+
+.choix{
+    display: flex;
+}
+.choix :first-child{
+    width: 150px;
+}
+.choix >*{
+    flex: 0 0 auto;
+}
+
+.carre{
+    box-shadow: 0px 7px 8px 2px rgba(0, 0, 0, 0.2);
+    margin-left: auto;
+    margin-right: auto;
+    width:400px;
+    height:100px;
+    background-color: rgb(255, 255, 255); 
+}
+.titre{
+    font-size: 40px;
+    color: rgb(255, 255, 255);
+    text-align: center;
+}
+#preface{
+    margin-left: auto;
+    margin-right: auto;
+    width: 600px;
+    height: 100px;
+    border: 1px solid #000; 
+    display: block;
+    position: relative;
+    background-color: #34495E;
+    
+}
+
+.divPrenom{
+    position: absolute;
+    color:white;
+    top: 40px;
+    right:40px
+    
+}
+
+.lienHaut{
+    position:  absolute;
+    color:white;
+    bottom: 5px;
+    right: 5px
+}
+.bouton{
+    cursor: pointer;
+    margin-left: auto;
+    margin-right: auto;
+    width: 150px;
+    height: 25px;
+    color:white;
+    background-color: #34495E;
+    
+}
+ /* unvisited link */
+ a:link {
+    color: rgb(255, 255, 255);
+  }
+  
+  /* visited link */
+  a:visited {
+    color: rgb(255, 255, 255);
+  }
+  
+  /* mouse over link */
+  a:hover {
+    cursor: pointer; 
+    color: hotpink;
+  }
+  
+  /* selected link */
+  a:active {
+    color: blue;
+  } 
+
+
+table{
+    font-size: 11px;
+}
+
+.rwd-table tr {
+ 
+}
+.rwd-table th {
+  display: none;
+}
+.rwd-table td {
+  display: block;
+}
+.rwd-table td:first-child {
+
+}
+.rwd-table td:last-child {
+
+}
+.rwd-table td:before {
+
+  font-weight: bold;
+  display: inline-block;
+}
+
+.rwd-table th, .rwd-table td {
+  text-align: left;
+}
+@media (min-width: 100px) {
+  .rwd-table th, .rwd-table td {
+    display: table-cell;
+  }
+  .rwd-table th:first-child, .rwd-table td:first-child {
+    padding-left: 0;
+  }
+  .rwd-table th:last-child, .rwd-table td:last-child {
+    padding-right: 0;
+  }
+}
+
+body {
+  padding: 0 2em;
+  font-family: Montserrat, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  color: #444;
+  background: #eee;
+}
+
+h1 {
+  font-weight: normal;
+  letter-spacing: -1px;
+  color: #34495E;
+}
+
+.rwd-table {
+  background: #34495E;
+  color: #fff;
+  border-radius: .4em;
+  overflow: hidden;
+}
+.rwd-table tr {
+  border-color: #46637f;
+}
+.rwd-table th, .rwd-table td {
+  margin: .5em 1em;
+}
+@media (min-width: 200px) {
+  .rwd-table th, .rwd-table td {
+     font-weight: bold;
+    padding: 1em !important;
+  }
+}
+.rwd-table th, .rwd-table td:before {
+    font-weight: bold;
+    color: #ffffcc
+}
